@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "start" : "npm run tsc && node ./dist/app.js"
+    "start": "npm run tsc && node ./dist/app.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/max-in-to/not-busy-backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "short-uuid": "^3.1.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
