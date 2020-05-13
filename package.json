@@ -2,11 +2,11 @@
   "name": "not-busy-backend",
   "version": "0.0.1",
   "description": "Node + Express app for gathering place data by lat,lng and for storing user favorites to a MongoDB database",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "npm run tsc && node ./dist/app.js"
-  },
+    "start": "npm run tsc && node ./dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/max-in-to/not-busy-backend.git"
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/max-in-to/not-busy-backend#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "short-uuid": "^3.1.1"
   },
