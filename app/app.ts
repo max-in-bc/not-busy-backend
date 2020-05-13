@@ -8,9 +8,7 @@ const server: http.Server = http.createServer(app);
 const port = 3000;
 const routes: any = [];
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.json({limit: '5mb'}));
 routes.push(new UsersRoutes(app));
 app.get('/', (req: express.Request, res: express.Response) => {
     res.status(200).send(`Server running at port ${port}`)
@@ -21,3 +19,4 @@ server.listen(port, () => {
         console.log(`Routes configured for ${route.getName()}`);
     });
 });
+export default app;

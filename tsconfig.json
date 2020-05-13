@@ -5,6 +5,13 @@
         "outDir": "./dist",
         "strict": true,
         "esModuleInterop": true,
-        "inlineSourceMap": true
-    }
+        "inlineSourceMap": true,
+      },
+      "include": [
+        "app/**/*.ts"
+      ],
+      "exclude": [
+        "node_modules",
+        "test/**/*.ts"
+      ]
 }
