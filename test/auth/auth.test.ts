@@ -83,4 +83,5 @@ it('should DELETE /users/:userId', async function () {
     const res = await request(app)
         .delete(`/users/${firstUserIdTest}`).send();
     expect(res.status).to.equal(204);
+    console.log('firstUserIdTest: ' + firstUserIdTest);
 });

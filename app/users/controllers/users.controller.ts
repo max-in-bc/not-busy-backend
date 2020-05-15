@@ -16,7 +16,7 @@ export class UsersController {
         res.status(200).send(user);
     }
     async createUser(req: express.Request, res: express.Response) {
-        const usersService = UsersService.getInstance();
+        const usersService = UsersService.getInstance(); 
         const sp = new SecurePass();
         const password = Buffer.from(req.body.password);
         req.body.password = (await sp.hashPassword(password)).toString('utf-8');

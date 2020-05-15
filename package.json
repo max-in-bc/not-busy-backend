@@ -5,9 +5,9 @@
   "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "npm run tsc && node ./dist/app.js",
-    "test-dev": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run tsc && node --inspect ./dist/app.js",
+    "test-dev": "nodemon --watch --inspect . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\"",
+    "test": "mocha --inspect -r ts-node/register test/**/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "argon2-pass": "^1.0.2",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.14",
     "short-uuid": "^3.1.1"
   },
   "devDependencies": {
