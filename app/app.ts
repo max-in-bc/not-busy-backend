@@ -5,6 +5,7 @@ import * as bodyparser from 'body-parser';
 import {CommonRoutesConfig} from './common/common.routes.config';
 import {UsersRoutes} from './users/users.routes.config';
 import { AuthRoutes } from './auth/auth.routes.config';
+import { PlacesRoutes } from './places/places.routes.config';
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -29,6 +30,7 @@ app.use( (req, res, next) => {
 
 routes.push(new UsersRoutes(app));
 routes.push(new AuthRoutes(app));
+routes.push(new PlacesRoutes(app));
 
 app.get('/', (req: express.Request, res: express.Response) => {
     res.status(200).send(`Server running at port ${port}`)

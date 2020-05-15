@@ -1,13 +1,13 @@
 import app from '../../app/app';
 import { agent as request } from 'supertest';
 import { expect } from 'chai';
-import * as shortUUID from "short-uuid";
 import { JwtService } from '../../app/auth/services/jwt.service';
+import { environment } from '../../dev.env';
 let firstUserIdTest = '';
 let firstUserBody = {
-    "name": "Marcos SIlva",
-    "email": `tio.makin+${shortUUID.generate()}@gmail.com`,
-    "password": "Pass#your!word"
+    "name": environment.testing_user_name,
+    "email": environment.testing_user_email,
+    "password": environment.testing_user_password
 };
 let jwt = {
     accessToken: '',
@@ -69,7 +69,7 @@ it(`should GET /users`, async function () {
     expect(res.body[0]._id).to.be.equals(firstUserIdTest);
 });
 it('should PUT /users/:userId', async function () {
-    const name = 'Jose';
+    const name = 'Ari';
     const res = await request(app)
         .put(`/users/${firstUserIdTest}`)
         .set('Accept', 'application/json')

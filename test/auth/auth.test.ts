@@ -1,12 +1,12 @@
 import app from '../../app/app';
 import { agent as request } from 'supertest';
 import { expect } from 'chai';
-import * as shortUUId from 'short-uuid';
+import { environment } from '../../dev.env';
 let firstUserIdTest = '';
 let firstUserBody = {
-    "name": "Marcos SIlva",
-    "email": `tio.makin+auth${shortUUId.generate()}@gmail.com`,
-    "password": "Pass#your!word"
+    "name": environment.testing_user_name,
+    "email": environment.testing_user_email,
+    "password": environment.testing_user_password
 };
 let jwt = {
     accessToken: '',

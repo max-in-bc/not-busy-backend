@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "npm run tsc && node --inspect ./dist/app.js",
+    "start": "npm run tsc && node --inspect ./dist/app/app.js",
     "test-dev": "nodemon --watch --inspect . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\"",
     "test": "mocha --inspect -r ts-node/register test/**/*.test.ts"
   },
@@ -26,10 +26,13 @@
   },
   "homepage": "https://github.com/makinhs/expressjs-api-tutorial#readme",
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^2.6.1",
     "argon2-pass": "^1.0.2",
     "express": "^4.17.1",
+    "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.14",
+    "npm": "^6.14.5",
     "short-uuid": "^3.1.1"
   },
   "devDependencies": {
@@ -46,6 +49,6 @@
     "supertest": "^4.0.2",
     "ts-node": "^8.6.2",
     "tslint": "^6.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.2"
   }
 }
