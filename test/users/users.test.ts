@@ -3,9 +3,9 @@ import { agent as request } from 'supertest';
 import { expect } from 'chai';
 let firstUserIdTest = '';
 let firstUserBody = {
-    "name": "Max",
-    "email": "fake+email@gmail.com",
-    "password": "23a_9Ja12d"
+    "name": "Max2",
+    "email": "fake+email2@gmail.com",
+    "password": "23a_9Ja122d"
 };
 it('should POST /users', async function () {
     const res = await request(app)
@@ -15,17 +15,19 @@ it('should POST /users', async function () {
     expect(res.body).to.be.an("object");
     expect(res.body.id).to.be.an('string');
     firstUserIdTest = res.body.id;
+    console.log('firstUserIdTest: ' + firstUserIdTest);
 });
 it(`should GET /users/:userId`, async function () {
+    console.log('firstUserIdTest: ' + firstUserIdTest);
     const res = await request(app)
         .get(`/users/${firstUserIdTest}`).send();
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
-    expect(res.body.id).to.be.an('string');
+    expect(res.body._id).to.be.an('string');
     expect(res.body.name).to.be.equals(firstUserBody.name);
     expect(res.body.email).to.be.equals(firstUserBody.email);
-    expect(res.body.id).to.be.equals(firstUserIdTest);
+    expect(res.body._id).to.be.equals(firstUserIdTest);
 });
 it(`should GET /users`, async function () {
     const res = await request(app)
@@ -33,10 +35,10 @@ it(`should GET /users`, async function () {
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("array");
-    expect(res.body[0].id).to.be.an('string');
+    expect(res.body[0]._id).to.be.an('string');
     expect(res.body[0].name).to.be.equals(firstUserBody.name);
     expect(res.body[0].email).to.be.equals(firstUserBody.email);
-    expect(res.body[0].id).to.be.equals(firstUserIdTest);
+    expect(res.body[0]._id).to.be.equals(firstUserIdTest);
 });
 it('should PUT /users/:userId', async function () {
     const name = 'Jose';
@@ -53,10 +55,10 @@ it(`should GET /users/:userId to have a new name`, async function () {
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
-    expect(res.body.id).to.be.an('string');
+    expect(res.body._id).to.be.an('string');
     expect(res.body.name).to.be.not.equals(firstUserBody.name);
     expect(res.body.email).to.be.equals(firstUserBody.email);
-    expect(res.body.id).to.be.equals(firstUserIdTest);
+    expect(res.body._id).to.be.equals(firstUserIdTest);
 });
 it('should PATCH /users/:userId', async function () {
     let newField = { description: 'My user description' };
@@ -70,7 +72,7 @@ it(`should GET /users/:userId to have a new field called description`, async fun
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
-    expect(res.body.id).to.be.an('string');
+    expect(res.body._id).to.be.an('string');
     expect(res.body.description).to.be.equals('My user description');
 });
 it('should DELETE /users/:userId', async function () {

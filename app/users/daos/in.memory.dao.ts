@@ -17,7 +17,7 @@ export class GenericInMemoryDao {
 
     addUser(user: any) {
         return new Promise((resolve) => {
-            user.id = shortUUID.generate();
+            user._id = shortUUID.generate();
             this.users.push(user)
             resolve(user.id);
         });
