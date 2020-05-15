@@ -1,11 +1,12 @@
 import app from '../../app/app';
 import { agent as request } from 'supertest';
 import { expect } from 'chai';
+import * as shortUUId from 'short-uuid';
 let firstUserIdTest = '';
 let firstUserBody = {
-    "name": "Max",
-    "email": "fake+email@gmail.com",
-    "password": "23a_9Ja12d"
+    "name": "Marcos SIlva",
+    "email": `tio.makin+auth${shortUUId.generate()}@gmail.com`,
+    "password": "Pass#your!word"
 };
 let jwt = {
     accessToken: '',
@@ -81,7 +82,9 @@ it(`should POST to /auth/refresh-token and retrieve a new access token`, async (
 });
 it('should DELETE /users/:userId', async function () {
     const res = await request(app)
-        .delete(`/users/${firstUserIdTest}`).send();
+        .delete(`/users/${firstUserIdTest}`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer ${jwt.accessToken}`)
+        .send();
     expect(res.status).to.equal(204);
-    console.log('firstUserIdTest: ' + firstUserIdTest);
 });
