@@ -9,7 +9,7 @@ export class PlacesController {
     async searchPlaces(req: express.Request, res: express.Response) {
         const placesService = PlacesService.getInstance();
         const places_data = await placesService.searchByLocation(req.body.location, req.body.searchTerm);
-        if (places_data && places_data.data && places_data.data.results && Array.isArray(places_data.data.results) && places_data.data.results.length > 0){
+        if (places_data && places_data.data && places_data.data.results && Array.isArray(places_data.data.results)){
 
             let filtered: any = [];
             places_data.data.results.forEach((place_raw: any) => {
