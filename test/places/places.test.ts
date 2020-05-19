@@ -20,7 +20,7 @@ it('should GET /places for nyc restaurants', async function () {
 
 it('should GET /place details for restaurant', async function () {
     const res = await request(app)
-    .get(`/place/${testPlaceId}`)
+    .get(`/places/${testPlaceId}`)
     expect(res.status).to.equal(200);
     
 });
