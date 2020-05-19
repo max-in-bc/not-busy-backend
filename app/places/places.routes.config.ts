@@ -21,7 +21,7 @@ export class PlacesRoutes extends CommonRoutesConfig implements configureRoutes 
             placesController.searchPlaces
         ]);
        
-        this.app.get(`/place/:placeId`, [
+        this.app.get(`/places/:placeId`, [
             // jwtMiddleware.validJWTNeeded,
             // commonPermissionMiddleware.minimumPermissionLevelRequired(CommonPermissionMiddleware.BASIC_PERMISSION),
             // commonPermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
