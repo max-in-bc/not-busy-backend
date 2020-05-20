@@ -10,13 +10,7 @@ export class AuthMiddleware {
         }
         return AuthMiddleware.instance;
     }
-    async validateBodyRequest(req: express.Request, res: express.Response, next: express.NextFunction) {
-        if (req.body && req.body.email && req.body.password) {
-            next();
-        } else {
-            res.status(400).send({ error: 'Missing body fields: email, password' });
-        }
-    }
+    
     async verifyUserPassword(req: express.Request, res: express.Response, next: express.NextFunction) {
         const userService = UsersService.getInstance();
         const user: any = await userService.getByEmail(req.body.email);

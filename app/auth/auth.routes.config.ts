@@ -3,6 +3,7 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { JwtMiddleware } from './middlewares/jwt.middleware';
 import express from 'express';
+import { CommonAuthMiddleware } from '../common/middlewares/common.auth.middleware';
 export class AuthRoutes extends CommonRoutesConfig implements configureRoutes {
     constructor(app: express.Application) {
         super(app, 'AuthRoute');
@@ -11,9 +12,10 @@ export class AuthRoutes extends CommonRoutesConfig implements configureRoutes {
     configureRoutes() {
         const authController = new AuthController();
         const authMiddleware = AuthMiddleware.getInstance();
+        const commonMiddleware = CommonAuthMiddleware.getInstance();
         const jwtMiddleware = JwtMiddleware.getInstance();
         this.app.post(`/auth`, [
-            authMiddleware.validateBodyRequest,
+            commonMiddleware.validateBodyRequest,
             authMiddleware.verifyUserPassword,
             authController.createJWT
         ]);

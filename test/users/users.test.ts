@@ -13,7 +13,7 @@ let jwt = {
     accessToken: '',
     refreshToken: ''
 };
-const adminJWT = JwtService.generateToken(2147483647);
+const adminJWT = JwtService.generateToken(7);
 it('should POST /users', async function () {
     const res = await request(app)
         .post('/users').send(firstUserBody);
@@ -50,14 +50,14 @@ it(`should GET /users/:userId`, async function () {
     expect(res.body._id).to.be.an('string');
     expect(res.body.name).to.be.equals(firstUserBody.name);
     expect(res.body.email).to.be.equals(firstUserBody.email);
-    expect(res.body.permissionLevel).to.be.equals(15);
+    expect(res.body.permissionLevel).to.be.equals(7);
     expect(res.body._id).to.be.equals(firstUserIdTest);
 });
 it(`should GET /users`, async function () {
     const res = await request(app)
         .get(`/users`)
         .set('Accept', 'application/json')
-        .set('Authorization', `Bearer ${adminJWT}`)
+        .set('Authorization', `Bearer ${adminJWT.token}`)
         .send();
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;

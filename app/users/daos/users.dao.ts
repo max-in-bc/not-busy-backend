@@ -10,6 +10,7 @@ export class UsersDao {
         email: String,
         description: String,
         password: String,
+        favourite_places: [],
         permissionLevel: Number
     });
     User = this.mongooseService.getMongoose().model('Users', this.userSchema);

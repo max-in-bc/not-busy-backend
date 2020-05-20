@@ -18,8 +18,9 @@ export class UsersController {
         const usersService = UsersService.getInstance();
         const sp = new SecurePass();
         const password = Buffer.from(req.body.password);
-        req.body.password = (await sp.hashPassword(password)).toString('utf-8');
-        req.body.permissionLevel = 1 + 2 + 4 + 8;
+        req.body.password = (await sp.hashPassword(password)).toString();
+        req.body.permissionLevel = 7; //1 + 2 + 4 permission levels to create an admin
+        req.body.favourite_places = [];
         const userId = await usersService.create(req.body);
         res.status(201).send({ id: userId });
     }
