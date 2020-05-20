@@ -12,8 +12,8 @@ export class PlacesController {
         if (places_data && places_data.data && places_data.data.results && Array.isArray(places_data.data.results)){
 
             let filtered: any = [];
-            places_data.data.results.forEach( (place_raw: any) => {
-                const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos'];
+            places_data.data.results.forEach( async (place_raw: any) => {
+                const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon'];
 
                 let place = Object.keys(place_raw)
                 .filter(key => allowed.includes(key))
@@ -27,7 +27,7 @@ export class PlacesController {
                     address: place.vicinity,
                     location: place.geometry.location,
                     place_id: place.place_id,
-                    thumbnail: place.photos && place.photos.length > 0  ? place.photos[0].photo_reference : null
+                    thumbnail:place.icon
                 });
             });
            
