@@ -22,5 +22,9 @@ export class PlacesService {
     getPlaceById(resourceId: any) {
         return PlacesDao.getInstance().getPlaceById(resourceId);
     };
+    
+    getPlaceThumbnailById(resourceId: any){
+        return PlacesDao.getInstance().getPlaceThumbnailById(resourceId);
+    }
 
 }

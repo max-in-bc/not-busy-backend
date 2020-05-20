@@ -24,6 +24,21 @@ export class PlacesDao {
             } 
         })
     }
+
+    async getPlaceThumbnailById(photo_reference_id: string){
+        return  this.googlePlacesService.getGooglePlaceClient().placePhoto({
+            params: {
+                key: environment.google_places_api_key,
+                photoreference:photo_reference_id,
+                maxwidth: 400
+            } 
+        }).then(test => {
+            return test.data;
+        }).catch(err => {
+            return null;
+        })
+    }
+
     async searchPlaces(location: string, keyword?: string, limit: number = 0, page: number = 0) {
         let  params: any = {
             key: environment.google_places_api_key,
