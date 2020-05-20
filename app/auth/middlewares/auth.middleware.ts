@@ -26,6 +26,7 @@ export class AuthMiddleware {
                     email: user.email,
                     provider: 'email',
                     permissionLevel: user.permissionLevel,
+                    favourite_places: user.favourite_places
                 };
                 return next();
             } else {

@@ -16,7 +16,7 @@ export class AuthController {
             let token = jwt.sign(req.body, jwt_secret, { expiresIn: tokenExpirationInSeconds });
             let b = Buffer.from(hash);
             let refreshToken = b.toString('base64');
-            return res.status(201).send({ accessToken: token, refreshToken: refreshToken });
+            return res.status(201).send({ accessToken: token, refreshToken: refreshToken, userId: req.body.userId });
         } catch (err) {
             return res.status(500).send(err);
         }

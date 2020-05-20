@@ -4,7 +4,6 @@ import { UsersMiddleware } from './middlewares/users.middleware';
 import { CommonPermissionMiddleware } from '../common/middlewares/common.permission.middleware';
 import { JwtMiddleware } from '../auth/middlewares/jwt.middleware';
 import express from 'express';
-import { AuthMiddleware } from '../auth/middlewares/auth.middleware';
 import { CommonAuthMiddleware } from '../common/middlewares/common.auth.middleware';
 export class UsersRoutes extends CommonRoutesConfig implements configureRoutes {
     constructor(app: express.Application) {
