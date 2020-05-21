@@ -25,36 +25,11 @@ export class PopularityDao {
             environment.google_places_api_key,
             place_id], (error: any, stdout: any, stderr: any) => {
                 if (error) {
-                    console.error('stderr', stderr);
-                    throw error;
+                    //error running script do not print to stderr or stdout
+                    resolve({});
                 }
                 resolve(JSON.parse(stdout));
             });
-        //     var process = spawn('python',["app/places/daos/scrape_site_popularity.py", 
-        //     environment.google_places_api_key,
-        //     place_id] ); 
-          
-        //     process.stdout.on('data', (data: any) =>  { 
-        //         resolve(JSON.parse(data.toString()))
-        //     } )
-        //     process.stderr.on('data', (data) => {
-        //         console.error(`child stderr:\n${data}`);
-        //         resolve()
-        //       }); 
-       
-            //   const { exec } = require("child_process");
-            //   exec ("python3 -m scrape_site_popularity.py", (error: { message: any; }, stdout: any, stderr: any) => {
-            // //   exec("python3 app/places/daos/scrape_site_popularity.py " + environment.google_places_api_key + ' ' + place_id, (error: { message: any; }, stdout: any, stderr: any) => {
-            //       if (error) {
-            //           console.log(`error: ${error.message}`);
-            //           return;
-            //       }
-            //       if (stderr) {
-            //           console.log(`stderr: ${stderr}`);
-            //           return;
-            //       }
-            //       console.log(`stdout: ${stdout}`);
-            //   });
         });
         
         
