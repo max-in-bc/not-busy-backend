@@ -11,29 +11,40 @@ export class PlacesController {
         const places_data = await placesService.searchByLocation(req.body.location, req.body.searchTerm);
         if (places_data && places_data.data && places_data.data.results && Array.isArray(places_data.data.results)){
 
-            let filtered: any = [];
-            places_data.data.results.forEach( async (place_raw: any) => {
+            let filtered_req: any = [];
+            let raw_places: any = [];
+            places_data.data.results.forEach( (place_raw: any) => {
                 const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon'];
-
                 let place = Object.keys(place_raw)
                 .filter(key => allowed.includes(key))
                 .reduce((obj: any, key: string) => {
                     obj[key] = place_raw[key];
                     return obj;
                 }, {});
-                
-                filtered.push(<Place>{
-                    name: place.name,
-                    address: place.vicinity,
-                    location: place.geometry.location,
-                    place_id: place.place_id,
-                    thumbnail:place.icon
-                });
+                raw_places.push(place);
+                let pd = placesService.getPlacePopularityById(place_raw.place_id);
+                filtered_req.push(pd);
             });
            
-
-
-            res.status(200).send({ places: filtered });
+            Promise.all(filtered_req).then(data => {
+                let filtered: Array<any> = [];
+                data.forEach((place_popularity_data: any, i: number) => {
+          
+                    
+                    filtered.push(<Place>{
+                        name: raw_places[i].name,
+                        address: raw_places[i].vicinity,
+                        location: raw_places[i].geometry.location,
+                        place_id: raw_places[i].place_id,
+                        thumbnail:raw_places[i].icon,
+                        popular_times: place_popularity_data.popular_times,
+                        time_wait: place_popularity_data.time_wait,
+                        current_popularity: place_popularity_data.current_popularity
+                    });
+                });
+                res.status(200).send(filtered);
+                
+            })
         }
         else{
             res.status(404).send({ error: `No places found at ${req.body.location}` });

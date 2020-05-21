@@ -1,5 +1,6 @@
 import {CRUD} from '../../common/interfaces/crud.interface';
 import { PlacesDao } from '../daos/places.dao';
+import { PopularityDao } from '../daos/popularity.dao';
 
 export class PlacesService {
     private static instance: PlacesService;
@@ -22,6 +23,10 @@ export class PlacesService {
     getPlaceById(resourceId: any) {
         return PlacesDao.getInstance().getPlaceById(resourceId);
     };
+
+    getPlacePopularityById(resourceId: string){
+        return PopularityDao.getInstance().getPlacePopularityById(resourceId);
+    }
     
     getPlaceThumbnailById(resourceId: any){
         return PlacesDao.getInstance().getPlaceThumbnailById(resourceId);
