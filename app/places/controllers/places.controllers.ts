@@ -45,7 +45,7 @@ export class PlacesController {
                         }
                     });
                 });
-                res.status(200).send(filtered);
+                res.status(200).send({places:filtered});
                 
             })
         }
