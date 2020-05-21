@@ -6,7 +6,11 @@ export interface Place{
     location: LatLng,
     place_id: string,
     thumbnail?: string,
-    popularity_data?: any,
-    time_wait?: any,
-    current_popularity?: number
+  
+    popularity_data?: {
+        popular_times?: any,
+        time_wait?: any,
+        time_spent?: any,
+        current_popularity?: number
+    }
 }

@@ -7,14 +7,14 @@ try:
     if 'populartimes' in pop.keys():
         data['popular_times'] = pop['populartimes']
 
-
     if 'current_popularity' in pop.keys():
         data['current_popularity'] = pop['current_popularity']
 
-
-
     if 'time_wait' in pop.keys():
         data['time_wait'] = pop['time_wait']
+
+    if 'time_spent' in pop.keys():
+        data['time_spent'] = pop['time_spent']
 
     print(json.dumps(data),)
 except:

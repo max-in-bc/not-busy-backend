@@ -37,9 +37,12 @@ export class PlacesController {
                         location: raw_places[i].geometry.location,
                         place_id: raw_places[i].place_id,
                         thumbnail:raw_places[i].icon,
-                        popular_times: place_popularity_data.popular_times,
-                        time_wait: place_popularity_data.time_wait,
-                        current_popularity: place_popularity_data.current_popularity
+                        popularity_data: {
+                            popular_times: place_popularity_data.popular_times,
+                            time_wait: place_popularity_data.time_wait,
+                            time_spent: place_popularity_data.time_spent,
+                            current_popularity: place_popularity_data.current_popularity
+                        }
                     });
                 });
                 res.status(200).send(filtered);
@@ -64,15 +67,22 @@ export class PlacesController {
                 obj[key] = places_data.data.result[key];
                 return obj;
             }, {});
-          
-            res.status(200).send(<Place>{
-                name: place.name,
-                address: place.vicinity,
-                location: place.geometry.location,
-                place_id: place.place_id,
-                thumbnail: place.photos && place.photos.length > 0  ? place.photos[0].photo_reference : null
-               
+            placesService.getPlacePopularityById(place.place_id).then(place_popularity_data => {
+                res.status(200).send(<Place>{
+                    name: place.name,
+                    address: place.vicinity,
+                    location: place.geometry.location,
+                    place_id: place.place_id,
+                    thumbnail: place.photos && place.photos.length > 0  ? place.photos[0].photo_reference : null,
+                    popularity_data: {
+                        popular_times: place_popularity_data.popular_times,
+                        time_wait: place_popularity_data.time_wait,
+                        time_spent: place_popularity_data.time_spent,
+                        current_popularity: place_popularity_data.current_popularity
+                    }
+                });
             });
+           
         }
         else {
             res.status(404).send({ error: `Place ${req.body.placeId} not found` });
