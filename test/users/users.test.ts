@@ -5,15 +5,18 @@ import { JwtService } from '../../app/auth/services/jwt.service';
 import { environment } from '../../dev.env';
 let firstUserIdTest = '';
 let firstUserBody = {
-    "name": environment.testing_user_name,
     "email": environment.testing_user_email,
+    "password": environment.testing_user_password
+};
+let secondUserBody = {
+    "email": "2_" + environment.testing_user_email,
     "password": environment.testing_user_password
 };
 let jwt = {
     accessToken: '',
     refreshToken: ''
 };
-const adminJWT = JwtService.generateToken(7);
+const adminJWT = JwtService.generateToken(2147483647);
 it('should POST /users', async function () {
     const res = await request(app)
         .post('/users').send(firstUserBody);
@@ -48,9 +51,8 @@ it(`should GET /users/:userId`, async function () {
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
     expect(res.body._id).to.be.an('string');
-    expect(res.body.name).to.be.equals(firstUserBody.name);
     expect(res.body.email).to.be.equals(firstUserBody.email);
-    expect(res.body.permissionLevel).to.be.equals(7);
+    expect(res.body.permissionLevel).to.be.equals(15);
     expect(res.body._id).to.be.equals(firstUserIdTest);
 });
 it(`should GET /users`, async function () {
@@ -63,24 +65,23 @@ it(`should GET /users`, async function () {
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("array");
     // console.log(res.body)
-    expect(res.body[0]._id).to.be.an('string');
-    expect(res.body[0].name).to.be.equals(firstUserBody.name);
-    expect(res.body[0].email).to.be.equals(firstUserBody.email);
-    expect(res.body[0]._id).to.be.equals(firstUserIdTest);
+    expect(res.body).to.have.length.greaterThan(0);
+    let users_length = res.body.length;
+    expect(res.body[users_length - 1]._id).to.be.an('string');
+    expect(res.body[users_length - 1].email).to.be.equals(firstUserBody.email);
+    expect(res.body[users_length - 1]._id).to.be.equals(firstUserIdTest);
 });
 it('should PUT /users/:userId', async function () {
-    const name = 'Ari';
     const res = await request(app)
         .put(`/users/${firstUserIdTest}`)
         .set('Accept', 'application/json')
         .set('Authorization', `Bearer ${jwt.accessToken}`)
         .send({
-            name: name,
-            email: firstUserBody.email
+            email: secondUserBody.email
         });
     expect(res.status).to.equal(204);
 });
-it(`should GET /users/:userId to have a new name`, async function () {
+it(`should GET /users/:userId to have a new email`, async function () {
     const res = await request(app)
         .get(`/users/${firstUserIdTest}`)
         .set('Accept', 'application/json')
@@ -90,8 +91,7 @@ it(`should GET /users/:userId to have a new name`, async function () {
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
     expect(res.body._id).to.be.an('string');
-    expect(res.body.name).to.be.not.equals(firstUserBody.name);
-    expect(res.body.email).to.be.equals(firstUserBody.email);
+    expect(res.body.email).to.be.equals(secondUserBody.email);
     expect(res.body._id).to.be.equals(firstUserIdTest);
 });
 it('should PATCH /users/:userId', async function () {

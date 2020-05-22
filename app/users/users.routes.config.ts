@@ -4,7 +4,7 @@ import { UsersMiddleware } from './middlewares/users.middleware';
 import { CommonPermissionMiddleware } from '../common/middlewares/common.permission.middleware';
 import { JwtMiddleware } from '../auth/middlewares/jwt.middleware';
 import express from 'express';
-import { CommonAuthMiddleware } from '../common/middlewares/common.auth.middleware';
+import { AuthMiddleware } from '../auth/middlewares/auth.middleware';
 export class UsersRoutes extends CommonRoutesConfig implements configureRoutes {
     constructor(app: express.Application) {
         super(app, 'UsersRoute');
@@ -13,7 +13,7 @@ export class UsersRoutes extends CommonRoutesConfig implements configureRoutes {
     configureRoutes() {
         const usersController = new UsersController();
         const usersMiddleware = UsersMiddleware.getInstance();
-        const commonMiddleware = CommonAuthMiddleware.getInstance();
+        const authMiddleware = AuthMiddleware.getInstance();
         const jwtMiddleware = JwtMiddleware.getInstance();
         const commonPermissionMiddleware = new CommonPermissionMiddleware();
         this.app.get(`/users`, [
@@ -22,7 +22,7 @@ export class UsersRoutes extends CommonRoutesConfig implements configureRoutes {
             usersController.listUsers
         ]);
         this.app.post(`/users`, [  
-            commonMiddleware.validateBodyRequest,
+            authMiddleware.validateBodyRequest,
             usersMiddleware.validateRequiredCreateUserBodyFields,
             usersMiddleware.validateSameEmailDoesntExist,
             usersController.createUser

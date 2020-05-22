@@ -1,12 +1,12 @@
-import { environment } from "../../../dev.env";
-
-const tokenExpirationInSeconds = 40000;
+// todo: move to a secure place
+const jwt_secret = 'My!@!Se3cr8tH4sh';
+const tokenExpirationInSeconds = 36000;
 const jwt = require('jsonwebtoken');
 let crypto = require('crypto');
 export class JwtService {
     public static generateToken(permissionLevel: Number): {token: string, refreshToken: string} {
         try {
-            let refreshId = 'nba_' + environment.jwt_secret;
+            let refreshId = '123321' + jwt_secret;
             let salt = crypto.randomBytes(16).toString('base64');
             let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
             let expiresAt = new Date();
@@ -18,7 +18,7 @@ export class JwtService {
                 provider: 'email',
                 name: 'bond',
                 refreshKey: salt
-            },  environment.jwt_secret);
+            },   jwt_secret);
             let b = Buffer.from(hash);
             let refreshToken = b.toString('base64');
             return {token, refreshToken};
