@@ -1,7 +1,7 @@
 {
-  "name": "expressjs-api-tutorial",
-  "version": "0.0.1",
-  "description": "Tutorial of how to create a REST API using ExpressJS",
+  "name": "not-busy-backend",
+  "version": "1.0.0",
+  "description": " ",
   "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/makinhs/expressjs-api-tutorial.git"
+    "url": "git+https://github.com/max-in-to/not-busy-backend.git"
   },
   "keywords": [
     "REST",
@@ -19,12 +19,12 @@
     "ExpressJS",
     "NodeJS"
   ],
-  "author": "Marcos Silva",
+  "author": "Max Gardiner",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/makinhs/expressjs-api-tutorial/issues"
+    "url": "https://github.com/max-in-to/not-busy-backend/issues"
   },
-  "homepage": "https://github.com/makinhs/expressjs-api-tutorial#readme",
+  "homepage": "https://github.com/max-in-to/not-busy-backend#readme",
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^2.6.1",
     "argon2-pass": "^1.0.2",
