@@ -1,4 +1,6 @@
 import express from 'express';
+import { PlacesService } from '../services/places.service';
+import { Place } from '../controllers/place.interface';
 export class PlacesMiddleware {
     private static instance: PlacesMiddleware;
 

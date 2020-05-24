@@ -38,7 +38,7 @@ export class UsersService implements CRUD {
         return UsersDao.getInstance().patchUser(resource);
     };
 
-    async getByEmail(email: string) {
+    getByEmail(email: string) {
         return UsersDao.getInstance().getUserByEmail(email);
     }
 }

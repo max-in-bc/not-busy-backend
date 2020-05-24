@@ -37,4 +37,15 @@ export class UsersMiddleware {
         req.body.id = req.params.userId;
         next();
     }
+
+    async extractUserFavouritePlaceIds(req: express.Request, res: express.Response, next: express.NextFunction) {
+        const userService = UsersService.getInstance();
+        const user = await userService.readById(req.body.id);
+        if (user) {
+            req.body.placeIds = Array.from(user.get('favourite_places')) ;
+            next();
+        } else {
+            res.status(404).send({ error: `User ${req.params.userId} not found` });
+        }
+    }
 }
