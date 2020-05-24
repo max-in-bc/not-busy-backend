@@ -77,7 +77,10 @@ it('should PUT /users/:userId', async function () {
         .set('Accept', 'application/json')
         .set('Authorization', `Bearer ${jwt.accessToken}`)
         .send({
-            email: secondUserBody.email
+            email: secondUserBody.email,
+            favourite_places: [
+                'ChIJsb6K1VzzfVMRU1SQdEZvxsk'
+            ]
         });
     expect(res.status).to.equal(204);
 });
@@ -94,27 +97,23 @@ it(`should GET /users/:userId to have a new email`, async function () {
     expect(res.body.email).to.be.equals(secondUserBody.email);
     expect(res.body._id).to.be.equals(firstUserIdTest);
 });
-it('should PATCH /users/:userId', async function () {
-    let newField = { description: 'My user description' };
+
+it(`should GET /places/favs/:userId and return data about favourie places`, async function () {
     const res = await request(app)
-        .patch(`/users/${firstUserIdTest}`)
-        .set('Accept', 'application/json')
-        .set('Authorization', `Bearer ${jwt.accessToken}`)
-        .send(newField);
-    expect(res.status).to.equal(204);
-});
-it(`should GET /users/:userId to have a new field called description`, async function () {
-    const res = await request(app)
-        .get(`/users/${firstUserIdTest}`)
-        .set('Accept', 'application/json')
-        .set('Authorization', `Bearer ${jwt.accessToken}`)
-        .send();
+    .get(`/users/${firstUserIdTest}`)
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${jwt.accessToken}`)
+    .send();
     expect(res.status).to.equal(200);
+
     expect(res.body).not.to.be.empty;
     expect(res.body).to.be.an("object");
-    expect(res.body._id).to.be.an('string');
-    expect(res.body.description).to.be.equals('My user description');
+    expect(res.body.favourite_places).to.not.be.empty;
+    expect(res.body.favourite_places).to.be.an("array");
+    expect(res.body.favourite_places).to.have.length.greaterThan(0);
+    expect(res.body.favourite_places[0]).to.equal('ChIJsb6K1VzzfVMRU1SQdEZvxsk');
 });
+
 it('should DELETE /users/:userId', async function () {
     const res = await request(app)
         .delete(`/users/${firstUserIdTest}`)
