@@ -1,7 +1,6 @@
-import {CRUD} from '../../common/interfaces/crud.interface';
 import { UsersDao } from '../daos/users.dao';
 
-export class UsersService implements CRUD {
+export class UsersService  {
     private static instance: UsersService;
 
     constructor() {

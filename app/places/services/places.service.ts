@@ -1,4 +1,3 @@
-import {CRUD} from '../../common/interfaces/crud.interface';
 import { PlacesDao } from '../daos/places.dao';
 import { PopularityDao } from '../daos/popularity.dao';
 
