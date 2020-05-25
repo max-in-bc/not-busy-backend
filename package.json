@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "npm run tsc && cp ./*.pem ./dist/app && node ./dist/app/app.js",
+    "start": "npm run tsc &&  node ./dist/app/app.js",
     "test-dev": "nodemon --watch --inspect . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\"",
     "test": "mocha --inspect -r ts-node/register test/**/*.test.ts"
   },
