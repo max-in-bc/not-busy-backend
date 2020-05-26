@@ -50,57 +50,80 @@ $ npm run start
 
 your local version of the API will be running on port 3000.
 
+
+## Testing
+
+Run the following to run all unit tests:
+```
+$ npm run test
+```
+
 ## Deployment
 
 See angular best practices for deployment/production build details here: https://expressjs.com/en/advanced/best-practice-performance.html. In order to run the app outside of a local dev server you will need an ssl-encrypted server to host this API or else most modern browsers will not allow requests from an encrypted web page.
 
 ## App Structure
+ 
+Similarly to the front-end it helps with app complexity when growing to have a highly modularized project structure from the get-go. 
 
-Highly modularized with lazy-loaded page components. All shared components reside in the "shared" folder (components, services, interfaces, and directives used by more than one component). A module is a mechanism to group the aforemention pieces into a working application. The basic structure of a module is defined by the module file and can include definitions/exports of components to be used elsewhere, or imports of other modules to use their pieces inside of this component.
+The basic modules are for authentication, user data, place data, and shared services among each of those modules. 
 
-```
+For all the services who revolve around managing a single shared resource we implement a singleton design pattern (places service instide the routes for example) because having multiple instances accessing a shared resource like this could be potentially destructive.
 
-└───src/
-    ├───app/
-    │   ├───{{function_grouping}}/
-    │   │   ├───{{component_def}}/
-    │   │   │   ├───components/
-    │   │   │   ├───services/
-    │   │   │   ├───resolvers/
-    │   │   │   └───directives/
-    |   |   └───{{function_grouping}}.module.ts
-    │   ├───shared/
-    │   │   ├───components/
-    │   │   │   └───shared-header/
-    │   │   │       ├───shared-header.component.html
-    │   │   │       ├───shared-header.component.scss
-    │   │   │       ├───shared-header.component.spec.ts
-    │   │   │       └───shared-header.component.ts
-    │   │   ├───directives/
-    │   │   │   ├───no-request-page.directive.spec.ts
-    │   │   │   └───no-request-page.directive.ts
-    │   │   ├───interfaces/
-    │   │   │   ├───lat-lng.interface.ts
-    │   │   │   ├───place.interface.ts
-    │   │   │   └───user.interface.ts
-    │   │   ├───services/
-    │   │   │   ├───base-api.service.spec.ts
-    │   │   │   ├───base-api.service.ts
-    │   │   │   ├───http-service.interceptor.spec.ts
-    │   │   │   ├───http-service.interceptor.ts     --> Created this interceptor to help with the initial custom splash and detect the first http request completing before hiding the splash
-    │   │   │   ├───location.service.spec.ts
-    │   │   │   └───location.service.ts
-    │   │   └───shared.module.ts    --> Modules used (and will be used) by components throughout the app
-    │   ├───app-routing.module.ts   --> Base routing defined here
-    │   ├───app.component.html      --> Root template
-    │   ├───app.component.scss
-    │   ├───app.component.spec.ts
-    │   ├───app.component.ts
-    │   └───app.module.ts   --> Global module definitions/imports
-    ├───index.html      --> App root
-    └───styles.scss     --> Global styles
+I implement a DAO (Data Access Object) for each resource which interacts directly with data. This is meant to abstact the retrieval of data from the resource containing the data (https://www.oracle.com/java/technologies/dataaccessobject.html). 
 
-```
+Each module contains 0 or more of the following:
+- controllers (for handling the proper client requests that passed middleware validation/parsing)
+- middlewares (for all the methods for validation of a route and its params and other uses before reaching controller)
+- services (methods for accessing the DAOs (or other) by use in controllers and middleware)
+- daos (for defining access to the data)
+- route config (each module defines it's own routes)
+
+
+ ```
+└───app/
+    ├───auth/
+    │   ├───controllers/
+    │   │   └───auth.controller.ts
+    │   ├───middlewares/
+    │   │   ├───auth.middleware.ts
+    │   │   └───jwt.middleware.ts
+    │   ├───services/
+    │   │   └───jwt.service.ts
+    │   └───auth.routes.config.ts
+    ├───common/
+    │   ├───interfaces/
+    │   │   └───location.interface.ts
+    │   ├───middlewares/
+    │   │   └───common.permission.middleware.ts
+    │   ├───services/
+    │   │   ├───google.places.service.ts
+    │   │   └───mongoose.service.ts
+    │   └───common.routes.config.ts
+    ├───places/
+    │   ├───controllers/
+    │   │   ├───place.interface.ts
+    │   │   └───places.controllers.ts
+    │   ├───daos/
+    │   │   ├───places.dao.ts
+    │   │   └───popularity.dao.ts
+    │   ├───middlewares/
+    │   │   └───places.middleware.ts
+    │   ├───services/
+    │   │   └───places.service.ts
+    │   └───places.routes.config.ts
+    ├───users/
+    │   ├───controllers/
+    │   │   └───users.controller.ts
+    │   ├───daos/
+    │   │   └───users.dao.ts
+    │   ├───middlewares/
+    │   │   └───users.middleware.ts
+    │   ├───services/
+    │   │   └───user.services.ts
+    │   └───users.routes.config.ts
+    └───app.ts
+ ```
 ## Dev History
 
 This app was originally a one week coding challenge I made for myself to complete the full stack of an app that would aide the community during the pandemic. It was originally made as an attempt to sharpen my skills that I have been honing on the front-end, while giving me some reminders of Node/Express best practices developing an API on the back end.
@@ -110,6 +133,7 @@ This app was originally a one week coding challenge I made for myself to complet
 - The python script used to gather the preliminary data for business popularity is technically against a certain TOS used to gather the data. For this reason this app will not be used in a production capacity until this requirement is removed. The idea past this POC is to have businesses and customers opt-in to providing the relevent data, which will forgo the need for the scraping
 - This app is just a proof-of-concept to be presented as an idea in the meantime. If I continue to create some more functionality and finish up the final basic components I will consider making this a real open source project.  I will gladly accept any ideas or issues in the issue tracker, or PRs if anyone is really interested.
 - Many people before COVID-19 would go to specific businesses with little provocation to do so. This app assumes that many patron-business loyalties have fallen by the wayside with availability.
+- I used the following app as a starting point for this app's structure to help tie my understanding of BP with a new project: https://github.com/makinhs/expressjs-api-tutorial/tree/001-criando-o-projeto thank you
 
 ## Under Development
  
@@ -133,4 +157,5 @@ https://github.com/max-in-to
 ## License
 
 None (All rights are reserved to author)
+
 
