@@ -1,7 +1,7 @@
 {
   "name": "not-busy-backend",
   "version": "1.0.0",
-  "description": " ",
+  "description": "Not Busy App is the API for the web-based solution for patrons to find the least busy businesses in their area.",
   "main": "dist/app.js",
   "scripts": {
     "tsc": "tsc",
