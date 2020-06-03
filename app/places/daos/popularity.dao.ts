@@ -18,7 +18,7 @@ export class PopularityDao {
     }
 
     async getPlacePopularityById(place_id: string) {
-        return new Promise<any>(resolve => {
+        return new Promise<any>((resolve, reject) => {
           
             const execFile = require('child_process').execFile;
             const child = execFile('python3', ['./scrape_site_popularity.py',  
@@ -26,9 +26,15 @@ export class PopularityDao {
             place_id], (error: any, stdout: any, stderr: any) => {
                 if (error) {
                     //error running script do not print to stderr or stdout
-                    resolve({});
+                    reject({error, add_default: true});
                 }
-                resolve(JSON.parse(stdout));
+                let data = JSON.parse(stdout);
+                if (data && typeof(data) == 'object' && Object.keys(data).length == 0){
+                    reject({error:'No popularity available for ' + place_id, add_default: true});
+                }
+                else{
+                    resolve(JSON.parse(stdout));
+                }
             });
         });
         

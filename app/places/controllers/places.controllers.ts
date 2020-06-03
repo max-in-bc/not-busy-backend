@@ -1,6 +1,6 @@
 import express from 'express';
 import { PlacesService } from '../services/places.service';
-import { Place } from './place.interface';
+import { Place, PopularityData } from './place.interface';
 
 
 export class PlacesController {
@@ -14,7 +14,7 @@ export class PlacesController {
             let filtered_req: any = [];
             let raw_places: any = [];
             places_data.data.results.forEach( (place_raw: any) => {
-                const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon'];
+                const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon', 'opening_hours'];
                 let place = Object.keys(place_raw)
                 .filter(key => allowed.includes(key))
                 .reduce((obj: any, key: string) => {
@@ -22,13 +22,14 @@ export class PlacesController {
                     return obj;
                 }, {});
                 raw_places.push(place);
-                let pd = placesService.getPlacePopularityById(place_raw.place_id);
+                let pd = placesService.getPlacePopularityById(place_raw.place_id, place_raw.opening_hours && place_raw.opening_hours && place_raw.opening_hours.open_now === true);
                 filtered_req.push(pd);
             });
            
-            Promise.all(filtered_req).then(data => {
+            Promise.all(filtered_req).then((results: any) => {
+                let data = <Array<PopularityData>> results;
                 let filtered: Array<any> = [];
-                data.forEach((place_popularity_data: any, i: number) => {
+                data.forEach((place_popularity_data: PopularityData, i: number) => {
           
                     
                     filtered.push(<Place>{
@@ -64,14 +65,14 @@ export class PlacesController {
      
                     const places_data: any = await placesService.getPlaceById(place_id);
                     if (places_data && places_data.data && places_data.data.result){
-                        const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon'];            
+                        const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon', 'opening_hours'];            
                         let place = Object.keys(places_data.data.result)
                         .filter(key => allowed.includes(key))
                         .reduce((obj: any, key: string) => {
                             obj[key] = places_data.data.result[key];
                             return obj;
                         }, {});
-                        placesService.getPlacePopularityById(place.place_id).then(place_popularity_data => {
+                        placesService.getPlacePopularityById(place.place_id, place.opening_hours && place.opening_hours && place.opening_hours.open_now === true).then(place_popularity_data => {
                             resolve(<Place>{
                                 name: place.name,
                                 address: place.vicinity,
@@ -109,7 +110,7 @@ export class PlacesController {
      
         const places_data: any = await placesService.getPlaceById(req.body.placeId);
         if (places_data && places_data.data && places_data.data.result){
-            const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon'];
+            const allowed = ['name', 'vicinity', 'geometry', 'place_id', 'photos', 'icon', 'opening_hours'];
             
             let place = Object.keys(places_data.data.result)
             .filter(key => allowed.includes(key))
@@ -117,7 +118,7 @@ export class PlacesController {
                 obj[key] = places_data.data.result[key];
                 return obj;
             }, {});
-            placesService.getPlacePopularityById(place.place_id).then(place_popularity_data => {
+            placesService.getPlacePopularityById(place.place_id, place.opening_hours && place.opening_hours && place.opening_hours.open_now === true).then(place_popularity_data => {
                 res.status(200).send(<Place>{
                     name: place.name,
                     address: place.vicinity,
