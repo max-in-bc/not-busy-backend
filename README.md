@@ -134,6 +134,7 @@ This app was originally a one week coding challenge I made for myself to complet
 - This app is just a proof-of-concept to be presented as an idea in the meantime. If I continue to create some more functionality and finish up the final basic components I will consider making this a real open source project.  I will gladly accept any ideas or issues in the issue tracker, or PRs if anyone is really interested.
 - Many people before COVID-19 would go to specific businesses with little provocation to do so. This app assumes that many patron-business loyalties have fallen by the wayside with availability.
 - I used the following app as a starting point for this app's structure to help tie my understanding of BP with a new project: https://github.com/makinhs/expressjs-api-tutorial/tree/001-criando-o-projeto thank you
+- Added a defautl of 50 for places that are currently open and 0 if closed (so for demo purposes each place has a current popularity)
 
 ## Under Development
  
