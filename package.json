@@ -28,7 +28,7 @@
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^2.6.1",
     "argon2-pass": "^1.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.14",
